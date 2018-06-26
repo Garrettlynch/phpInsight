@@ -190,6 +190,42 @@ class Sentiment {
 		//Sort array in reverse order
 		arsort($scores);
 
+		//set max as an array of keys of highest values
+		$max = array_keys($scores, max($scores));
+
+		//count the max array 
+		$i = count($max);
+
+		//if more than 1 item in max array
+		if ($i > 1)
+		{
+			if ($i == 2)
+			{
+				//if the max array has pos and neg then set scores dominant to neutral
+				if ((array_search("pos", $max) !== false) && (array_search("neg", $max) !== false)) $scores["dom"] = "neu";
+
+				//not sure if these combinations are possible (can a string be both pos/neg and neu?)
+
+				//if the max array has pos and neu then set scores dominant to pos (this is a judgement call)
+				if ((array_search("pos", $max) !== false) && (array_search("neu", $max) !== false)) $scores["dom"] = "pos";
+
+				//if the max array has neg and neu then set scores dominant to neg (this is a judgement call)
+				if ((array_search("neg", $max) !== false) && (array_search("neu", $max) !== false)) $scores["dom"] = "neg";
+			}
+			else
+			{
+				//technically this scenario should be impossible (1 does not divide equally by 3) but just in case
+		
+				//if the max array has pos, neg and neu then set scores dominant to neu
+				if ((array_search("pos", $max) !== false) && (array_search("neg", $max) !== false) && (array_search("neu", $max) !== false)) $scores["dom"] = "neu";
+			}
+		}
+		else
+		{
+			//set scores dominant to the entry in the max array
+			$scores["dom"] = $max[0];
+		}
+
 		return $scores;
 	}
 
@@ -203,8 +239,8 @@ class Sentiment {
 
 		$scores = $this->score($sentence);
 
-		//Classification is the key to the scores array
-		$classification = key($scores);
+		//Retrieve winning classification
+		$classification = $scores["dom"];
 
 		return $classification;
 	}
