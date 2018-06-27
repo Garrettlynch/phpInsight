@@ -10,4 +10,6 @@ For example usage, see the `examples` folder.
 License: GPLv3 or later
 
 
-update
+--- update 26-06-2018 ---
+
+Library no longer allows a tie between positive and negative (pos/neg) sentiments, instead neutral (neu) sentiment is assumed.
