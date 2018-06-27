@@ -8,3 +8,6 @@ calculate sentiment. To improve accuracy, phpInsight removes 'noise' words.
 For example usage, see the `examples` folder.
 
 License: GPLv3 or later
+
+
+update
